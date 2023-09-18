@@ -1,12 +1,13 @@
 package hexlet.code.dto;
 
-import lombok.Getter;
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Setter;
 
-@Setter
-@Getter
+@Data
 public class UserDTO {
 
+    @Setter(AccessLevel.NONE)
     private long id;
 
     private String firstName;
