@@ -42,10 +42,20 @@ public class UserDetailsServiceImpl implements UserService {
         User oldUser = userRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("User with id " + id + " was not found!"));
 
-        oldUser.setFirstName(userDTO.getFirstName());
-        oldUser.setLastName(userDTO.getLastName());
-        oldUser.setEmail(userDTO.getEmail());
-        oldUser.setPassword(userDTO.getPassword());
+        if (userDTO.getFirstName() != null) {
+            oldUser.setFirstName(userDTO.getFirstName());
+        }
+
+        if (userDTO.getLastName() != null) {
+            oldUser.setLastName(userDTO.getLastName());
+        }
+
+        if (userDTO.getEmail() != null) {
+            oldUser.setEmail(userDTO.getEmail());
+        }
+        if (userDTO.getPassword() != null) {
+            oldUser.setPassword(userDTO.getPassword());
+        }
 
         return userRepository.save(oldUser);
     }
@@ -58,9 +68,18 @@ public class UserDetailsServiceImpl implements UserService {
         userRepository.delete(userToDelete);
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User with email " + email + " was not found"));
+    }
+
     @Override
     public List<User> getAllUsers() {
         return new ArrayList<>(userRepository.findAll());
+    }
+
+    public void deleteAllUsers() {
+        userRepository.deleteAll();
     }
 
 //    @Override
