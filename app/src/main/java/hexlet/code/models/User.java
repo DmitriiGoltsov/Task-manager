@@ -2,13 +2,8 @@ package hexlet.code.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.EqualsAndHashCode;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
@@ -33,6 +28,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
+    @Setter(AccessLevel.NONE)
     private long id;
 
     private String firstName;
