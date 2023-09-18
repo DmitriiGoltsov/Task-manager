@@ -3,8 +3,12 @@ plugins {
 	id 'org.springframework.boot' version '3.1.3'
 	id 'io.spring.dependency-management' version '1.1.3'
 	id 'application'
-	id 'io.freefair.lombok' version '8.3'
-	id 'com.github.ben-manes.versions' version '0.48.0'
+	id 'org.liquibase.gradle' version '2.2.0'
+	// OpenApi
+	id "com.github.johnrengelman.processes" version "0.5.0"
+	id "org.springdoc.openapi-gradle-plugin" version "1.6.0"
+
+	id 'checkstyle'
 }
 
 group = 'hexlet.code'
@@ -12,6 +16,11 @@ version = '1.0-SNAPSHOT'
 
 java {
 	sourceCompatibility = '20'
+}
+
+wrapper {
+	gradleVersion = '8.3'
+	distributionType = Wrapper.DistributionType.ALL
 }
 
 configurations {
@@ -25,34 +34,45 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-devtools'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-configuration-processor'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 
+	// Spring Boot dependencies
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.data:spring-data-jpa:3.1.4'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// Lombok dependencies
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
-	implementation("org.mapstruct:mapstruct:1.5.5.Final")
-	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
-
-	implementation("org.instancio:instancio-junit:3.2.0")
-	implementation("net.javacrumbs.json-unit:json-unit-assertj:3.0.0")
-	implementation("net.datafaker:datafaker:2.0.1")
-
+	// Tests dependencies
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+	// implementation 'org.springframework.security:spring-security-test'
 
+	// Liquibase dependencies and JDBC drivers for H2 and PostgresSQL databases
+	liquibaseRuntime 'org.liquibase:liquibase-core:4.16.1'
+	liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:3.0.2'
+	liquibaseRuntime 'info.picocli:picocli:4.6.1'
+	implementation 'org.postgresql:postgresql:42.6.0'
+	implementation 'com.h2database:h2:2.2.222'
+
+	// Mappers and mapstruct
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+	// Swagger
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.15'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+diffChangelog {
+	dependsOn compileJava
 }
 
 task stage(dependsOn: [clean, installDist])
