@@ -6,8 +6,8 @@ setup:
 frontend:
 	cd frontend && npm run dev
 
-backend:
-	./gradlew bootRun --args='--spring.profiles.active=dev'
+development:
+	./gradlew bootRun --args='--spring.profiles.active=development'
 
 clean:
 	./gradlew clean
@@ -15,14 +15,11 @@ clean:
 build:
 	./gradlew clean build
 
-dev:
-	heroku local
-
 reload-classes:
 	./gradlew -t classes
 
 start-prod:
-	./gradlew bootRun --args='--spring.profiles.active=prod'
+	./gradlew bootRun --args='--spring.profiles.active=production'
 
 install:
 	./gradlew installDist
