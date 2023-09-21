@@ -18,6 +18,11 @@ java {
 	sourceCompatibility = '20'
 }
 
+compileJava {
+	options.release = 20
+	options.encoding = 'UTF-8'
+}
+
 wrapper {
 	gradleVersion = '8.3'
 	distributionType = Wrapper.DistributionType.ALL
@@ -40,7 +45,7 @@ dependencies {
 	implementation 'org.springframework.data:spring-data-jpa:3.1.4'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	// implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// Lombok dependencies
 	compileOnly 'org.projectlombok:lombok'
