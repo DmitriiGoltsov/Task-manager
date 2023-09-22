@@ -3,7 +3,7 @@ package hexlet.code.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import hexlet.code.dto.UserDTO;
-import hexlet.code.services.userServices.UserDetailsServiceImpl;
+import hexlet.code.services.userServices.UserServiceImplementation;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public class UserControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private UserDetailsServiceImpl userService;
+    private UserServiceImplementation userService;
 
     private static ObjectMapper mapper = new ObjectMapper();
 

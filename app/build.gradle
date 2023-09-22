@@ -11,6 +11,8 @@ plugins {
 	id 'checkstyle'
 }
 
+def jjwtversion = '0.11.5'
+
 group = 'hexlet.code'
 version = '1.0-SNAPSHOT'
 
@@ -46,6 +48,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 
 	// Lombok dependencies
 	compileOnly 'org.projectlombok:lombok'
@@ -70,6 +73,11 @@ dependencies {
 	// Swagger
 	implementation 'io.swagger.core.v3:swagger-annotations:2.2.15'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+
+	// jjwt library for working with JWT
+	implementation "io.jsonwebtoken:jjwt-api:${jjwtversion}"
+	runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtversion}"
+	runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtversion}"
 }
 
 tasks.named('test') {

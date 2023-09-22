@@ -2,6 +2,7 @@ package hexlet.code.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import hexlet.code.enums.UserRole;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -44,4 +45,8 @@ public class User {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp createdAt;
+
+    private UserRole userRole;
+
+
 }

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import jakarta.xml.bind.ValidationException;
 import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class UsersController {
     @Operation(summary = "Operation adds a new user to the DB")
     @ApiResponse(responseCode = "201", description = "User was successfully created")
     @PostMapping("/users")
-    public User createUser(@RequestBody UserDTO userDTO) {
+    public User createUser(@RequestBody UserDTO userDTO) throws ValidationException {
         return userService.createUser(userDTO);
     }
 

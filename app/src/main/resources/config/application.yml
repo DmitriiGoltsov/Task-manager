@@ -2,6 +2,7 @@ server:
   port: ${PORT:7070}
 
 base-url: /api
+
 spring:
   profiles:
     default: "production"
@@ -63,6 +64,9 @@ spring:
   security:
     user:
       password: asdf
+
+private1: 'app/src/main/resources/RSAKeys/RSAPrivateKey'
+public1: 'app/src/main/resources/RSAKeys/RSAPublicKey'
 ---
 springdoc:
   swagger-ui:
