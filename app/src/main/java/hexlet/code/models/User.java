@@ -14,8 +14,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
@@ -47,6 +49,4 @@ public class User {
     private Timestamp createdAt;
 
     private UserRole userRole;
-
-
 }
