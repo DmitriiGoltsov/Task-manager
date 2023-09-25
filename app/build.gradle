@@ -11,8 +11,6 @@ plugins {
 	id 'checkstyle'
 }
 
-def jjwtversion = '0.11.5'
-
 group = 'hexlet.code'
 version = '1.0-SNAPSHOT'
 
@@ -39,6 +37,8 @@ configurations {
 repositories {
 	mavenCentral()
 }
+
+def jjwtversion = '0.11.5'
 
 dependencies {
 
@@ -78,6 +78,11 @@ dependencies {
 	implementation "io.jsonwebtoken:jjwt-api:${jjwtversion}"
 	runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtversion}"
 	runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtversion}"
+
+	// For creating initial data during development
+	implementation 'net.datafaker:datafaker:2.0.1'
+
+	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 }
 
 tasks.named('test') {
