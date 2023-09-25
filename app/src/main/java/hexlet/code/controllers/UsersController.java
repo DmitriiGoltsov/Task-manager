@@ -2,7 +2,8 @@ package hexlet.code.controllers;
 
 import hexlet.code.dto.UserDTO;
 import hexlet.code.models.User;
-import hexlet.code.services.userServices.UserService;
+
+import hexlet.code.services.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
