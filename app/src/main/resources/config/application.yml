@@ -5,7 +5,7 @@ base-url: /api
 
 spring:
   profiles:
-    default: "production"
+    default: "development"
 ---
 spring:
   config:
@@ -63,10 +63,8 @@ spring:
 
   security:
     user:
-      password: asdf
-
-private1: 'app/src/main/resources/RSAKeys/RSAPrivateKey'
-public1: 'app/src/main/resources/RSAKeys/RSAPublicKey'
+      name: admin
+      password: admin
 ---
 springdoc:
   swagger-ui:
