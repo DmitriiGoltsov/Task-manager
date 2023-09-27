@@ -14,6 +14,8 @@ public class DataInitializer implements ApplicationRunner {
 
     public static final String DEFAULT_EMAIL = "admin@gmail.com";
     public static final String DEFAULT_PASSWORD = "qwerty";
+    private static final String DEFAULT_NAME = "Admin";
+    private static final String DEFAULT_SURNAME = "Adminovich";
 
 
     private final UserService userService;
@@ -25,6 +27,8 @@ public class DataInitializer implements ApplicationRunner {
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail(DEFAULT_EMAIL);
         userDTO.setPassword(DEFAULT_PASSWORD);
+        userDTO.setFirstName(DEFAULT_NAME);
+        userDTO.setLastName(DEFAULT_SURNAME);
 
         userService.createUser(userDTO);
     }
