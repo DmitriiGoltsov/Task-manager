@@ -6,6 +6,8 @@ base-url: /api
 spring:
   profiles:
     default: "development"
+
+jwt-secret-key: "myAwesome32CharacterUltraSecureAndUltraLongArchSecret"
 ---
 spring:
   config:
