@@ -71,7 +71,7 @@ public class UserControllerTest {
         assertThat(response.getContentAsString()).contains("Jassica", "Simpson", "jassika@yahoo.com");
         assertThat(response.getContentAsString()).doesNotContain("0000");
 
-        assertThat(response.getContentAsString()).contains("Richard", "Lionheart", "saladinisafriend@templemail.uk");
+        assertThat(response.getContentAsString()).contains("Richard", "Lionheart", EXISTING_EMAIL);
         assertThat(response.getContentAsString()).doesNotContain("richard");
     }
 
@@ -88,7 +88,7 @@ public class UserControllerTest {
         assertThat(response.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
         assertThat(response.getContentType()).isEqualTo("application/json");
 
-        assertThat(response.getContentAsString()).contains("Richard", "Lionheart", "saladinisafriend@templemail.uk");
+        assertThat(response.getContentAsString()).contains("Richard", "Lionheart", EXISTING_EMAIL);
         assertThat(response.getContentAsString()).doesNotContain("richard");
     }
 

@@ -4,10 +4,9 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.3'
 	id 'application'
 	id 'org.liquibase.gradle' version '2.2.0'
-	// OpenApi
 	id "com.github.johnrengelman.processes" version "0.5.0"
 	id "org.springdoc.openapi-gradle-plugin" version "1.6.0"
-
+	id 'org.siouan.frontend-jdk11' version '6.0.0'
 	id 'checkstyle'
 }
 
@@ -95,3 +94,32 @@ diffChangelog {
 
 task stage(dependsOn: [clean, installDist])
 installDist.mustRunAfter clean
+
+frontend {
+	nodeVersion = '16.13.1'
+	installScript = 'install'
+	assembleScript = 'run build'
+	packageJsonDirectory = file("${projectDir}/frontend")
+}
+
+def configFrontendTasks = {
+	inputs.files(fileTree("${projectDir}/frontend").exclude('build', 'node_modules'))
+	outputs.dir("${buildDir}/resources/main/static")
+}
+
+assembleFrontend {
+	configure {configFrontendTasks}
+
+	doLast {
+		copy {
+			from "${projectDir}/frontend/build"
+			into "${buildDir}/resources/main/static"
+		}
+	}
+}
+
+installFrontend {
+	configure {configFrontendTasks}
+}
+
+processResources.dependsOn(assembleFrontend)

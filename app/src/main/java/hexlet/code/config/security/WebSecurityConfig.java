@@ -1,4 +1,4 @@
-package hexlet.code.config;
+package hexlet.code.config.security;
 
 import hexlet.code.filters.JwtAuthFilter;
 import hexlet.code.services.CustomUserDetailsService;
@@ -25,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class WebSecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers(antMatcher("/welcome")).permitAll()
                         .requestMatchers(antMatcher(baseUrl + LOGIN)).permitAll()
                         .requestMatchers(antMatcher(baseUrl + USER_CONTROLLER_PATH)).permitAll()
                         .anyRequest()

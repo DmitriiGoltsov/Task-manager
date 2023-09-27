@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import static hexlet.code.config.WebSecurityConfig.DEFAULT_AUTHORITIES;
+import static hexlet.code.config.security.WebSecurityConfig.DEFAULT_AUTHORITIES;
 
 @RequiredArgsConstructor
 @Service
