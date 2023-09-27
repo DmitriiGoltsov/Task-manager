@@ -1,5 +1,6 @@
-package hexlet.code.config;
+package hexlet.code.filters;
 
+import hexlet.code.utils.JwtUtils;
 import hexlet.code.services.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,6 +23,8 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
+    private static final String BEARER = "Bearer";
+
     private final CustomUserDetailsService userDetailsService;
     private final JwtUtils jwtUtils;
 
@@ -34,7 +37,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String userEmail;
         final String jwToken;
 
-        if (!Objects.nonNull(authHeader) || !authHeader.startsWith("Bearer")) {
+        if (!Objects.nonNull(authHeader) || !authHeader.startsWith(BEARER)) {
             filterChain.doFilter(request, response);
             return;
         }
