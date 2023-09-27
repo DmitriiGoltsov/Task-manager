@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {"/data.sql"})
 public class UserControllerTest {
 
-    private static String EXISTING_EMAIL = "saladinisafriend@templemail.uk";
+    private static String EXISTING_EMAIL = "Saladdin@gmail.com";
 
     @Autowired
     private MockMvc mockMvc;
