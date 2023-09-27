@@ -1,7 +1,7 @@
 package hexlet.code.controllers;
 
-import hexlet.code.config.JwtUtils;
-import hexlet.code.dto.AuthenticationRequestDTO;
+import hexlet.code.utils.JwtUtils;
+import hexlet.code.dto.LoginDTO;
 import hexlet.code.services.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class AuthenticationController {
     private final JwtUtils jwtUtils;
 
     @PostMapping(path = "/login")
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequestDTO request) {
+    public ResponseEntity<String> authenticate(@RequestBody LoginDTO request) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
