@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,12 +26,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 
 import java.util.List;
 
 import static hexlet.code.controllers.UsersController.USER_CONTROLLER_PATH;
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @EnableWebSecurity
 @Configuration
@@ -51,18 +54,19 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable);
-
+        
         http
-                .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers(antMatcher("/welcome")).permitAll()
-                        .requestMatchers(antMatcher(baseUrl + LOGIN)).permitAll()
-                        .requestMatchers(antMatcher(baseUrl + USER_CONTROLLER_PATH)).permitAll()
-                        .anyRequest()
-                        .authenticated())
+                .authorizeHttpRequests(requests ->
+                                requests
+                                        .requestMatchers(new AntPathRequestMatcher(baseUrl + LOGIN, POST.toString())).permitAll()
+                                        .requestMatchers(new AntPathRequestMatcher(baseUrl + USER_CONTROLLER_PATH, POST.toString())).permitAll()
+                                        .requestMatchers(new AntPathRequestMatcher(baseUrl + USER_CONTROLLER_PATH, GET.toString())).permitAll()
+                                        .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher(baseUrl + "/**"))).permitAll()
+                                        .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider());
+                .sessionManagement(AbstractHttpConfigurer::disable)
+                .logout(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
