@@ -1,22 +1,20 @@
-server:
-  port: ${PORT:7070}
----
 base-url: /api
----
+
 spring:
+  application:
+    name: taskManagerTest
+
   datasource:
     url: jdbc:h2:mem:mydb
     username: sa
     password: sa
     driverClassName: org.h2.Driver
+
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
-    defer-datasource-initialization: true
-  output:
-    ansi:
-      enabled: always
+
   h2:
     console:
       enabled: true
@@ -24,18 +22,7 @@ spring:
       path: /h2console/
       settings:
         web-allow-others: true
-  sql:
-    init:
-      mode: always
----
-server:
-  address: 0.0.0.0
----
+
 logging:
   level:
-    root: WARN
-    org:
-      springframework:
-        # web: DEBUG
-        security: DEBUG
----
+    root: INFO
