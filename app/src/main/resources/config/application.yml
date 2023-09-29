@@ -7,6 +7,18 @@ spring:
   profiles:
     default: "development"
 
+  application:
+    name: "Task manager"
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/changelog-master.xml
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
 jwt-secret-key: "myAwesome32CharacterUltraSecureAndUltraLongArchSecret"
 ---
 spring:
@@ -20,9 +32,9 @@ spring:
     password: ${DB_PASSWORD}
 
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
   output:
     ansi:
@@ -31,6 +43,7 @@ spring:
 logging:
   level:
     root: info
+
 ---
 spring:
   config:
@@ -45,9 +58,6 @@ spring:
 
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: update
-    defer-datasource-initialization: true
 
   output:
     ansi:
@@ -59,14 +69,11 @@ spring:
       path: /h2console
       settings:
         web-allow-others: true
-  sql:
-    init:
-      mode: always
 
-  security:
-    user:
-      name: admin
-      password: admin
+logging:
+  level:
+    root: info
+    web: debug
 ---
 springdoc:
   swagger-ui:
