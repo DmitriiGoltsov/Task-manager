@@ -12,15 +12,17 @@ import org.springframework.stereotype.Service;
 
 import hexlet.code.models.User;
 import hexlet.code.dto.UserDTO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     public User createUser(UserDTO userDTO) throws ValidationException {
@@ -38,8 +40,8 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        return  userRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("User with id " + id + "was not found!"));
+        return  userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User with id " + id + "was not found!"));
     }
 
     public User updateUserById(Long id, UserDTO userDTO) {
