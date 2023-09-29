@@ -1,162 +1,158 @@
 package hexlet.code.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 
+import hexlet.code.config.SpringTestConfig;
+import hexlet.code.dto.LoginDTO;
 import hexlet.code.dto.UserDTO;
+import hexlet.code.models.User;
+import hexlet.code.repositories.UserRepository;
 import hexlet.code.services.UserService;
-import jakarta.servlet.http.HttpServletResponse;
+import hexlet.code.utils.TestUtils;
 
+import static hexlet.code.config.SpringTestConfig.TEST_PROFILE;
+import static hexlet.code.config.security.WebSecurityConfig.LOGIN;
+import static hexlet.code.controllers.UsersController.ID;
+import static hexlet.code.controllers.UsersController.USER_CONTROLLER_PATH;
+import static hexlet.code.utils.TestUtils.TEST_USERNAME;
+import static hexlet.code.utils.TestUtils.fromJson;
+import static hexlet.code.utils.TestUtils.asJson;
+import static hexlet.code.utils.TestUtils.NEW_USERNAME;
+
+import jakarta.servlet.http.HttpServletResponse;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.ActiveProfiles;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = SpringTestConfig.class)
 @AutoConfigureMockMvc
-@Transactional
-@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {"/data.sql"})
+@ActiveProfiles(TEST_PROFILE)
+@ExtendWith(SpringExtension.class)
 public class UserControllerTest {
-
-    private static String EXISTING_EMAIL = "Saladdin@gmail.com";
-
-    @Autowired
-    private MockMvc mockMvc;
-
+    
+    private static final String BASE_URL = "/api";
+    
     @Autowired
     private UserService userService;
-
-    private static ObjectMapper mapper = new ObjectMapper();
-
+    
+    @Autowired
+    UserRepository userRepository;
+    
+    @Autowired
+    private TestUtils testUtils;
+  
+    @BeforeEach
+    public void beforeEach() throws Exception {
+        testUtils.tearDown();
+        testUtils.registerDefaultUser();
+    }
+    
+    @AfterEach
+    public void afterEach() {
+        testUtils.tearDown();
+    }
+    
     @Test
-    void testWelcomePage() throws Exception {
-        MockHttpServletResponse response = mockMvc
-                .perform(get("/welcome"))
+    public void registrationTest() throws Exception {
+        assertEquals(0, userService.getAllUsers().size());
+        testUtils.registerDefaultUser().andExpect(status().isCreated());
+        assertEquals(1, userService.getAllUsers().size());
+    }
+    
+    @Test
+    public void getUserByIdTest() throws Exception {
+        final User expectedUser = userService.getAllUsers().get(0);
+        
+        final var response = testUtils.perform(
+                        get(BASE_URL + USER_CONTROLLER_PATH + ID, expectedUser.getId()),
+                        expectedUser.getEmail())
                 .andReturn()
                 .getResponse();
-
+        
         assertThat(response.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
-        assertThat(response.getContentAsString()).contains("Welcome to Spring");
+        final User user = fromJson(response.getContentAsString(), new TypeReference<>(){});
+        
+        assertEquals(expectedUser.getId(), user.getId());
+        assertEquals(expectedUser.getFirstName(), user.getFirstName());
+        assertEquals(expectedUser.getLastName(), user.getLastName());
+        assertEquals(expectedUser.getEmail(), user.getEmail());
+    }
+    
+    @Test
+    public void getAllUsers() throws Exception {
+        final MockHttpServletResponse response = testUtils.perform(
+                get(BASE_URL + USER_CONTROLLER_PATH))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+        
+        final List<User> users = fromJson(response.getContentAsString(), new TypeReference<>(){});
+        assertThat(users).hasSize(1);
+        assertThat(users.get(0).getEmail()).isEqualTo("email@email.com");
     }
 
     @Test
-    void getAllUsersTest() throws Exception {
-
-        MockHttpServletResponse response = mockMvc
-                .perform(get("/api/users"))
-                .andReturn()
-                .getResponse();
-
-        assertThat(response.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
-        assertThat(response.getContentType()).isEqualTo("application/json");
-
-        assertThat(response.getContentAsString()).contains("John", "Smith", "john@gmail.com");
-        assertThat(response.getContentAsString()).doesNotContain("12345");
-
-        assertThat(response.getContentAsString()).contains("Jack", "Doe", "jack@mail.com");
-        assertThat(response.getContentAsString()).doesNotContain("qwerty");
-
-        assertThat(response.getContentAsString()).contains("Jassica", "Simpson", "jassika@yahoo.com");
-        assertThat(response.getContentAsString()).doesNotContain("0000");
-
-        assertThat(response.getContentAsString()).contains("Richard", "Lionheart", EXISTING_EMAIL);
-        assertThat(response.getContentAsString()).doesNotContain("richard");
+    public void loginTest() throws Exception {
+        final LoginDTO loginDTO = new LoginDTO(
+                testUtils.getTestRegistrationDto().getEmail(),
+                testUtils.getTestRegistrationDto().getPassword()
+        );
+        
+        final MockHttpServletRequestBuilder loginRequest = post(BASE_URL + LOGIN)
+                .content(asJson(loginDTO))
+                .contentType(MediaType.APPLICATION_JSON);
+        
+        testUtils.perform(loginRequest).andExpect(status().isOk());
     }
-
+    
     @Test
-    void getUserTest() throws Exception {
-
-        long id = userService.getUserByEmail(EXISTING_EMAIL).getId();
-
-        MockHttpServletResponse response = mockMvc
-                .perform(get("/api/users/" + id))
-                .andReturn()
-                .getResponse();
-
-        assertThat(response.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
-        assertThat(response.getContentType()).isEqualTo("application/json");
-
-        assertThat(response.getContentAsString()).contains("Richard", "Lionheart", EXISTING_EMAIL);
-        assertThat(response.getContentAsString()).doesNotContain("richard");
+    public void updateUserTest() throws Exception {
+        final long userId = userService.getUserByEmail(TEST_USERNAME).getId();
+        
+        final UserDTO userDTO = new UserDTO(
+                "new name",
+                "new surname",
+                NEW_USERNAME,
+                "password"
+        );
+        
+        final MockHttpServletRequestBuilder updateRequest =
+                put(BASE_URL + USER_CONTROLLER_PATH + ID, userId)
+                .content(asJson(userDTO))
+                .contentType(MediaType.APPLICATION_JSON);
+        
+        testUtils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
+        
+        assertTrue(userRepository.existsById(userId));
+        assertNull(userRepository.findUserByEmail(TEST_USERNAME).orElse(null));
+        assertNotNull(userRepository.findUserByEmail(NEW_USERNAME).orElse(null));
     }
-
+    
     @Test
-    void updateUserTest() throws Exception {
-
-        long id = userService.getUserByEmail(EXISTING_EMAIL).getId();
-
-        UserDTO userDTO = new UserDTO();
-        String newLastName = "Plantagenet";
-        userDTO.setLastName(newLastName);
-
-        mockMvc.perform(put("/api/users/{id}", id)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(mapper.writeValueAsString(userDTO)));
-
-        MockHttpServletResponse getResponse = mockMvc
-                .perform(get("/api/users/{id}", id))
-                .andReturn()
-                .getResponse();
-
-        assertThat(getResponse.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
-        assertThat(getResponse.getContentType()).isEqualTo("application/json");
-
-        assertThat(getResponse.getContentAsString())
-                .contains("Richard", "Plantagenet", "saladinisafriend@templemail.uk");
-        assertThat(getResponse.getContentAsString()).doesNotContain("Lionheart", "Acra");
-    }
-
-    @Test
-    void createUserTest() throws Exception {
-        String firstName = "Igor";
-        String lastName = "Ott";
-        String email = "ott@gmail.com";
-        String password = "password";
-
-        UserDTO userDTO = new UserDTO();
-        userDTO.setFirstName(firstName);
-        userDTO.setLastName(lastName);
-        userDTO.setEmail(email);
-        userDTO.setPassword(password);
-
-        MockHttpServletResponse response = mockMvc
-                .perform(
-                        post("/api/users")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(mapper.writeValueAsString(userDTO)))
-                .andReturn()
-                .getResponse();
-
-        assertThat(response.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
-        assertThat(response.getContentType()).isEqualTo("application/json");
-
-        assertThat(response.getContentAsString()).contains(firstName, lastName, email);
-        assertThat(response.getContentAsString()).doesNotContain(password);
-    }
-
-    @Test
-    void deleteUserTest() throws Exception {
-
-        long existingId = userService.getUserByEmail(EXISTING_EMAIL).getId();
-
-        MockHttpServletResponse response = mockMvc.perform(delete("/api/users/{id}", existingId))
-                .andReturn()
-                .getResponse();
-
-        assertThat(response.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
-        assertThat(response.getContentAsString())
-                .doesNotContain(EXISTING_EMAIL, "Richard", "Lionheart", "Acra");
+    public void deleteUser() throws Exception {
+        final Long userId = userService.getUserByEmail(TEST_USERNAME).getId();
+        
+        testUtils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TEST_USERNAME)
+                .andExpect(status().isOk());
+        
+        assertEquals(1, userRepository.count());
     }
 }
