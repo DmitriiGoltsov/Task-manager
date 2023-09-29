@@ -27,6 +27,11 @@ wrapper {
 	distributionType = Wrapper.DistributionType.ALL
 }
 
+application {
+	mainClass = 'hexlet.code.AppApplication'
+}
+
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -82,6 +87,15 @@ dependencies {
 	implementation 'net.datafaker:datafaker:2.0.1'
 
 	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+
+	liquibaseRuntime(
+			sourceSets.main.output,
+			'org.liquibase:liquibase-core',
+			'info.picocli:picocli:4.7.1',
+			'org.liquibase.ext:liquibase-hibernate6:4.21.1',
+			'org.springframework.boot:spring-boot-starter-data-jpa',
+			'com.h2database:h2',
+	)
 }
 
 tasks.named('test') {
@@ -91,6 +105,31 @@ tasks.named('test') {
 diffChangelog {
 	dependsOn compileJava
 }
+
+
+// Настраиваем Liquibase
+liquibase {
+	activities {
+		main {
+			// Указываем путь, по которому будет сгенерирован файл миграции
+			changelogFile 'src/main/resources/db/changelog/changelog-master.xml'
+			// Указываем источник, с которым будут сравниваться изменения
+			// Это база данных, изначально она пустая
+			url 'jdbc:h2:file:./taskManager'
+			// Имя пользователя и пароль для подключения к базе
+			// username ''
+			// password ''
+			// Сравниваем с моделями, задавая пакет
+			referenceUrl 'hibernate:spring:hexlet.code.model.' +
+					// Указываем диалект
+					'?dialect=org.hibernate.dialect.H2Dialect'
+			// Указываем правила именования таблиц и столбцов,
+			// чтобы они соответствовали правилам Spring
+			'&hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy'
+		}
+	}
+}
+
 
 task stage(dependsOn: [clean, installDist])
 installDist.mustRunAfter clean
