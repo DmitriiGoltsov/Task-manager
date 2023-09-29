@@ -72,7 +72,7 @@ public class UsersController {
 
     @Operation(summary = "Get a user by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User was found"),
+            @ApiResponse(responseCode = "201", description = "User was found"),
             @ApiResponse(responseCode = "404", description = "User with such id has not been found")
     })
     @GetMapping(ID)
@@ -82,7 +82,7 @@ public class UsersController {
 
     @Operation(summary = "Operation changes characteristics of the particular user that is found by its id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User was found and updated"),
+            @ApiResponse(responseCode = "201", description = "User was found and updated"),
             @ApiResponse(responseCode = "404", description = "User with such id has not been found")
     })
     @PreAuthorize(ONLY_USER_BY_ID)
