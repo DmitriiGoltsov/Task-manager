@@ -39,7 +39,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
 
     @NotBlank(message = "First name cannot be empty")
     @Column(name = "first_name")
