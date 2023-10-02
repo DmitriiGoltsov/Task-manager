@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TaskStatusDTO {
     
-    @NotBlank(message = "Status name cannot be blank")
+    @NotBlank(message = "Task status name cannot be blank")
     private String name;
     
 }
