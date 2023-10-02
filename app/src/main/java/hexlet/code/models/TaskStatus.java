@@ -11,18 +11,24 @@ import jakarta.persistence.TemporalType;
 
 import jakarta.validation.constraints.NotBlank;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "task_statuses")
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class TaskStatus {
     
     @Id
@@ -43,6 +49,4 @@ public class TaskStatus {
     public TaskStatus(String name) {
         this.name = name;
     }
-    
-    
 }
