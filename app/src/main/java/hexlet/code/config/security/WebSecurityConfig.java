@@ -43,8 +43,7 @@ public class WebSecurityConfig {
     public static final List<GrantedAuthority> DEFAULT_AUTHORITIES = List.of(new SimpleGrantedAuthority("USER"));
     public static final String LOGIN = "/login";
 
-    @Value("${base-url}")
-    private String baseUrl;
+    private static final String baseUrl = "/api";
 
     private final JwtAuthFilter jwtAuthFilter;
     private final CustomUserDetailsService userDetailsService;
