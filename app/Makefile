@@ -6,9 +6,6 @@ setup:
 frontend:
 	cd frontend && npm run dev
 
-development:
-	./gradlew bootRun --args='--spring.profiles.active=development'
-
 clean:
 	./gradlew clean
 
@@ -19,7 +16,10 @@ reload-classes:
 	./gradlew -t classes
 
 start-prod:
-	./gradlew bootRun --args='--spring.profiles.active=production'
+	./gradlew bootRun --args='--spring.profiles.active=prod'
+
+start:
+	./gradlew bootRun --args="--spring.profiles.active=dev"
 
 install:
 	./gradlew installDist
@@ -42,11 +42,11 @@ update-js-deps:
 check-java-deps:
 	./gradlew dependencyUpdates -Drevision=release
 
-# generate-migrations:
-# 	gradle diffChangeLog
+generate-migrations:
+	gradle diffChangeLog
 
-# db-migrate:
-# 	./gradlew update
+db-migrate:
+	./gradlew update
 
 
 .PHONY: build frontend
