@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: DEV-6
+      author: Goljcov Dimitrije
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: label_id
+            baseTableName: tasks_labels
+            constraintName: FK5eg3urx4p1n0hkcqv8x04wibn
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: label_id
+            referencedTableName: labels
+            validate: true

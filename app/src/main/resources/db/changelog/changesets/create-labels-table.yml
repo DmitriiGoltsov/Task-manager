@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: DEV-4
+      author: Goljcov Dimitrije
+      changes:
+        - createTable:
+            tableName: labels
+            remarks: This changeSet creates a new table for storing labels
+            columns:
+              - column:
+                  name: label_id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: label_pk
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(35)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP(6)
+                  constraints:
+                    nullable: false

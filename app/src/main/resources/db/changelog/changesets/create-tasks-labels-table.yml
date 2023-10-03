@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: DEV-5
+      author: Goljcov Dimitrije
+      changes:
+        - createTable:
+            tableName: tasks_labels
+            remarks: This changeSet creates a new table, called "tasks_labels". The table connects tables "tasks" and "labels" with ManyToMany connection
+            columns:
+              - column:
+                  name: task_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: tasks_labelsPK
+              - column:
+                  name: label_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: tasks_labelsPK

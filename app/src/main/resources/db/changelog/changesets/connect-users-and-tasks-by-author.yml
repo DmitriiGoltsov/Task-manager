@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: DEV-9
+      author: Goljcov Dimitrije
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: executor_id
+            baseTableName: tasks
+            constraintName: FKbrg922bkqn5m7212jsqjg6ioe
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: user_id
+            referencedTableName: users
+            validate: true
