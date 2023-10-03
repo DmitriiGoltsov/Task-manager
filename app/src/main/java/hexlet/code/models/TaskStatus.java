@@ -33,7 +33,7 @@ public class TaskStatus {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "task_status_id")
     @Setter(AccessLevel.NONE)
     private Long id;
     
