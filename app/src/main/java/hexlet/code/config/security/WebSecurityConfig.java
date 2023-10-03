@@ -60,6 +60,7 @@ public class WebSecurityConfig {
                                         .requestMatchers(new AntPathRequestMatcher(baseUrl + LOGIN, POST.toString())).permitAll()
                                         .requestMatchers(new AntPathRequestMatcher(baseUrl + USER_CONTROLLER_PATH, POST.toString())).permitAll()
                                         .requestMatchers(new AntPathRequestMatcher(baseUrl + USER_CONTROLLER_PATH, GET.toString())).permitAll()
+                                        .requestMatchers(new AntPathRequestMatcher("/h2console/**", GET.toString())).permitAll()
                                         .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher(baseUrl + "/**"))).permitAll()
                                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
