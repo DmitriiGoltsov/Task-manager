@@ -111,15 +111,15 @@ liquibase {
 	activities {
 		main {
 			// Указываем путь, по которому будет сгенерирован файл миграции
-			changelogFile 'app/src/main/resources/db/changelog/db.changelog-master.yml'
+			changelogFile 'src/main/resources/db/changelog/db.changelog-master.yml'
 			// Указываем источник, с которым будут сравниваться изменения
 			// Это база данных, изначально она пустая
-			url 'jdbc:h2:mem:default'
+			url 'jdbc:h2:file:./taskManager'
 			// Имя пользователя и пароль для подключения к базе
-			username 'sa'
-			password 'sa'
+			username ''
+			password ''
 			// Сравниваем с моделями, задавая пакет
-			referenceUrl 'hibernate:spring:hexlet.code.model.' +
+			refeHrenceUrl 'hibernate:spring:hexlet.code.models.' +
 					// Указываем диалект
 					'?dialect=org.hibernate.dialect.H2Dialect'
 			// Указываем правила именования таблиц и столбцов,
