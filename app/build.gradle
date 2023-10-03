@@ -53,6 +53,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 
 	// Lombok dependencies
@@ -64,9 +65,7 @@ dependencies {
 	// implementation 'org.springframework.security:spring-security-test'
 
 	// Liquibase dependencies and JDBC drivers for H2 and PostgresSQL databases
-	liquibaseRuntime 'org.liquibase:liquibase-core:4.16.1'
-	liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:3.0.2'
-	liquibaseRuntime 'info.picocli:picocli:4.6.1'
+	implementation 'org.liquibase:liquibase-core'
 	implementation 'org.postgresql:postgresql:42.6.0'
 	implementation 'com.h2database:h2:2.2.222'
 
@@ -107,13 +106,12 @@ diffChangelog {
 	dependsOn compileJava
 }
 
-
 // Настраиваем Liquibase
 liquibase {
 	activities {
 		main {
 			// Указываем путь, по которому будет сгенерирован файл миграции
-			changelogFile 'src/main/resources/db/changelog/changelog-master.xml'
+			changelogFile 'app/src/main/resources/db/changelog/db.changelog-master.yml'
 			// Указываем источник, с которым будут сравниваться изменения
 			// Это база данных, изначально она пустая
 			url 'jdbc:h2:mem:default'
@@ -130,7 +128,6 @@ liquibase {
 		}
 	}
 }
-
 
 task stage(dependsOn: [clean, installDist])
 installDist.mustRunAfter clean
