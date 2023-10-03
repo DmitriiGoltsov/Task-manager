@@ -4,83 +4,30 @@ server:
 base-url: /api
 
 spring:
-  profiles:
-    default: "development"
-
   application:
     name: "Task manager"
 
+  profiles:
+    active: ${APP_ENV:dev}
+
   liquibase:
     enabled: true
-    change-log: classpath:db/changelog/changelog-master.xml
+    change-log: classpath:db/changelog/db.changelog-master.yml
 
   mvc:
     hiddenmethod:
       filter:
         enabled: true
 
+  output:
+    ansi:
+      enabled: always
+
 jwt-secret-key: "myAwesome32CharacterUltraSecureAndUltraLongArchSecret"
----
-spring:
-  config:
-    activate:
-      on-profile: "production"
 
-  datasource:
-    url: ${JDBC_DATABASE_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
-
-  jpa:
-    show-sql: false
-    hibernate:
-      ddl-auto: none
-
-  output:
-    ansi:
-      enabled: always
-
-logging:
-  level:
-    root: info
-
----
-spring:
-  config:
-    activate:
-      on-profile: "development"
-
-  datasource:
-    url: jdbc:h2:mem:default
-    username: sa
-    password: sa
-    driver-class-name: org.h2.Driver
-
-  jpa:
-    show-sql: true
-
-  output:
-    ansi:
-      enabled: always
-
-  h2:
-    console:
-      enabled: true
-      path: /h2console
-      settings:
-        web-allow-others: true
-
-logging:
-  level:
-    root: info
-    web: debug
----
 springdoc:
-  swagger-ui:
-    path: /swagger
-
-server:
-  address: 0.0.0.0
+  api-docs:
+    path: /swagger.html
 
 logging:
   level:
