@@ -9,7 +9,7 @@ public interface TaskService {
     
     Task createNewTask(TaskDTO taskDto);
     
-    //Iterable<Task> getAllTasks(Predicate predicate);
+    Iterable<Task> getAllTasksByCriteria(Predicate predicate);
     
     Task getTaskById(Long id);
     

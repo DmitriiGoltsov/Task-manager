@@ -1,5 +1,6 @@
 package hexlet.code.controllers;
 
+import com.querydsl.core.types.Predicate;
 import hexlet.code.dto.TaskDTO;
 import hexlet.code.models.Task;
 import hexlet.code.services.TaskServiceImplementation;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Iterator;
 import java.util.List;
 
 import static hexlet.code.controllers.TaskController.TASK_CONTROLLER_URL;
@@ -46,8 +49,8 @@ public class TaskController {
     @Operation(description = "Get all tasks of all authors")
     @ApiResponse(responseCode = "200", description = "Every task is loaded")
     @GetMapping
-    public List<Task> getAllTasks() {
-        return taskService.getAllTasks();
+    public Iterable<Task> getAllTasksByCriteria(@QuerydslPredicate(root = Task.class) final Predicate predicate) {
+        return taskService.getAllTasksByCriteria(predicate);
     }
     
     @Operation(description = "Get a particular task by its id")
