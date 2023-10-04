@@ -32,6 +32,7 @@ import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import java.util.List;
 
 import static hexlet.code.controllers.UsersController.USER_CONTROLLER_PATH;
+import static hexlet.code.controllers.LabelController.LABEL_CONTROLLER_URL;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -60,6 +61,8 @@ public class WebSecurityConfig {
                                         .requestMatchers(new AntPathRequestMatcher(baseUrl + LOGIN, POST.toString())).permitAll()
                                         .requestMatchers(new AntPathRequestMatcher(baseUrl + USER_CONTROLLER_PATH, POST.toString())).permitAll()
                                         .requestMatchers(new AntPathRequestMatcher(baseUrl + USER_CONTROLLER_PATH, GET.toString())).permitAll()
+                                        .requestMatchers(new AntPathRequestMatcher(baseUrl + LABEL_CONTROLLER_URL, POST.toString())).permitAll()
+                                        .requestMatchers(new AntPathRequestMatcher(baseUrl + LABEL_CONTROLLER_URL, GET.toString())).permitAll()
                                         .requestMatchers(new AntPathRequestMatcher("/h2console/**", GET.toString())).permitAll()
                                         .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher(baseUrl + "/**"))).permitAll()
                                         .anyRequest().authenticated())
