@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,7 +32,7 @@ import static hexlet.code.controllers.TaskStatusController.TASK_STATUS_URL;
 @RestController
 @Tag(name = "Task statuses controller")
 @RequestMapping("${base-url}" + TASK_STATUS_URL)
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class TaskStatusController {
     
     public static final String TASK_STATUS_URL = "/statuses";
@@ -50,7 +50,7 @@ public class TaskStatusController {
     @Operation(description = "Create new task status")
     @ApiResponse(responseCode = "201", description = "Task status was successfully created")
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping(path = "")
     public TaskStatus createTaskStatus(@RequestBody @Valid final TaskStatusDTO dto) {
         return taskStatusService.createTaskStatus(dto);
     }
