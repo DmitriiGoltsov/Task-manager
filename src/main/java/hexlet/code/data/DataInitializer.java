@@ -1,3 +1,4 @@
+/*
 package hexlet.code.data;
 
 import hexlet.code.dto.TaskDTO;
@@ -53,3 +54,4 @@ public class DataInitializer implements ApplicationRunner {
         taskService.createNewTask(taskDTO);
     }
 }
+*/
