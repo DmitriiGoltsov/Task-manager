@@ -25,7 +25,7 @@ import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import static jakarta.persistence.TemporalType.TIMESTAMP;
 
@@ -76,7 +76,7 @@ public class Task {
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "label_id")
     )
-    private List<Label> labels;
+    private Set<Label> labels;
     
     public Task(String name, String description, TaskStatus taskStatus, User author, User executor) {
         this.name = name;
