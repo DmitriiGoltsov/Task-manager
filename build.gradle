@@ -42,51 +42,51 @@ repositories {
 	mavenCentral()
 }
 
-def jjwtversion = '0.11.5'
-
 dependencies {
 
-	// Spring Boot dependencies
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.data:spring-data-jpa:3.1.4'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	// Lombok dependencies
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+	implementation(
+			// Spring Boot dependencies
+			'org.springframework.boot:spring-boot-starter',
+			'org.springframework.data:spring-data-jpa:3.1.4',
+			'org.springframework.boot:spring-boot-starter-data-jpa',
+			'org.springframework.boot:spring-boot-starter-web',
+			'org.springframework.boot:spring-boot-starter-validation',
+			'org.springframework.boot:spring-boot-starter-security',
+			'org.springframework.boot:spring-boot-starter-oauth2-resource-server',
+			'org.springframework.boot:spring-boot-starter-jdbc',
 
-	// Tests dependencies
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	// implementation 'org.springframework.security:spring-security-test'
+			// Querydsl-jpa dependency
+			'com.querydsl:querydsl-jpa:5.0.0:jakarta',
 
-	// Liquibase dependencies and JDBC drivers for H2 and PostgresSQL databases
-	implementation 'org.liquibase:liquibase-core'
-	implementation 'org.postgresql:postgresql:42.6.0'
-	implementation 'com.h2database:h2:2.2.222'
+			// Liquibase dependencies
+			'org.liquibase:liquibase-core',
 
-	// Mappers and mapstruct
-	implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+			// Mappers and mapstruct
+			'org.openapitools:jackson-databind-nullable:0.2.6',
+			'org.mapstruct:mapstruct:1.5.5.Final',
 
-	// Swagger
-	implementation 'io.swagger.core.v3:swagger-annotations:2.2.15'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+			// Swagger
+			'io.swagger.core.v3:swagger-annotations:2.2.15',
+			'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0',
 
-	// jjwt library for working with JWT
-	implementation "io.jsonwebtoken:jjwt-api:${jjwtversion}"
-	runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtversion}"
-	runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtversion}"
+			// jjwt library for working with JWT
+			'io.jsonwebtoken:jjwt:0.9.1',
 
-	// For creating initial data during development
-	implementation 'net.datafaker:datafaker:2.0.1'
+			// For creating initial data during development
+			'net.datafaker:datafaker:2.0.1',
 
-	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+			'javax.xml.bind:jaxb-api:2.4.0-b180830.0359',
+
+			// rollbar (bug tracker) dependency
+			'com.rollbar:rollbar-spring-boot3-webmvc:1.10.0'
+	)
+
+	runtimeOnly(
+			'org.postgresql:postgresql:42.6.0',
+			'com.h2database:h2:2.2.222',
+	)
 
 	liquibaseRuntime(
 			sourceSets.main.output,
@@ -96,6 +96,18 @@ dependencies {
 			'org.springframework.boot:spring-boot-starter-data-jpa',
 			'com.h2database:h2',
 	)
+
+	annotationProcessor(
+			'org.projectlombok:lombok',
+			'com.querydsl:querydsl-apt:5.0.0:jakarta',
+			'jakarta.persistence:jakarta.persistence-api:3.1.0'
+	)
+
+	testImplementation(
+			'org.springframework.security:spring-security-test',
+			'org.springframework.boot:spring-boot-starter-test'
+	)
+
 }
 
 tasks.named('test') {
