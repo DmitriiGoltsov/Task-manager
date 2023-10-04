@@ -40,36 +40,35 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "task_id")
     private Long id;
-    
+
     @NotBlank(message = "Name cannot be blank")
     @Column(name = "name")
     private String name;
-    
+
     @Lob
     @Column(name = "description")
     private String description;
-    
+
     @ManyToOne
-    @JoinColumn(name = "task_status_id", referencedColumnName = "task_status_id")
+    @JoinColumn(name = "task_status_id", referencedColumnName = "id")
     @NotNull(message = "Task status cannot be blank or null")
     private TaskStatus taskStatus;
-    
+
     @ManyToOne
-    @JoinColumn(name = "author_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
     @NotBlank(message = "Author cannot be blank")
     private User author;
-    
+
     @ManyToOne
-    @JoinColumn(name = "executor_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "executor_id", referencedColumnName = "id")
     private User executor;
-    
+
     @CreationTimestamp
     @Temporal(TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAT;
-    
+
     @ManyToMany
     @JoinTable(
             name = "tasks_labels",
@@ -77,7 +76,7 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "label_id")
     )
     private Set<Label> labels;
-    
+
     public Task(String name, String description, TaskStatus taskStatus, User author, User executor) {
         this.name = name;
         this.description = description;

@@ -13,12 +13,12 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
-    private final String baseAPI;
-    
+    private final String baseApiPath;
+
     public WebConfiguration(@Value("${base-url}") String baseApiPath) {
-        this.baseAPI = baseApiPath;
+        this.baseApiPath = baseApiPath;
     }
-    
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
@@ -35,14 +35,13 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .addResolver(new PathResourceResolver() {
                     @Override
                     protected Resource getResource(String resourcePath, Resource location) throws IOException {
-                        if (resourcePath.startsWith(baseAPI) || resourcePath.startsWith(
-                                baseAPI.substring(1))) {
+                        if (resourcePath.startsWith(baseApiPath) || resourcePath.startsWith(
+                                baseApiPath.substring(1))) {
                             return null;
                         }
-                        
+
                         return location.exists() && location.isReadable() ? location : null;
                     }
                 });
     }
-    
 }

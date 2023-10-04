@@ -29,32 +29,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Label {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "label_id")
     private Long id;
-    
     @Column(name = "name")
     @NotBlank(message = "Name cannot be less than 1 character")
     private String name;
-    
-    
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createdAt;
-    
     @ManyToMany(mappedBy = "labels")
     private List<Task> tasks;
-    
-    /*public void addTasks(List<Task> tasks) {
-        this.tasks = tasks;
-        
-        for (Task task : tasks) {
-            task.getLabels().add(this);
-        }
-        
-    }*/
-    
 }

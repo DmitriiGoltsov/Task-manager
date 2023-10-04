@@ -15,22 +15,21 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @ComponentScan({"hexlet.code"})
 public class RollbarConfig {
-    
+
     @Value("${rollbar_token}")
     private String rollbarAccessToken;
-    
+
     @Value("${spring.profiles.active:}")
     private String activeProfile;
-    
+
     @Bean
     public Rollbar rollbar() {
         return new Rollbar(getRollbarConfigs(rollbarAccessToken));
     }
-    
+
     private Config getRollbarConfigs(String accessToken) {
         return RollbarSpringConfigBuilder.withAccessToken(accessToken)
                 .environment(activeProfile)
                 .build();
     }
-    
 }

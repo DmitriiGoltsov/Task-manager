@@ -114,6 +114,12 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+checkstyle {
+    toolVersion '10.12.1'
+}
+
+checkstyleMain.exclude '**/build/generated/sources/annotationProcessor/java/main/**'
+
 diffChangelog {
 	dependsOn compileJava
 }
@@ -126,10 +132,10 @@ liquibase {
 			changelogFile 'src/main/resources/db/changelog/db.changelog-master.yml'
 			// Указываем источник, с которым будут сравниваться изменения
 			// Это база данных, изначально она пустая
-			url 'jdbc:h2:file:./task_Manager'
+			url 'jdbc:h2:mem:taskmanager'
 			// Имя пользователя и пароль для подключения к базе
-			// username ''
-			// password ''
+			username 'sa'
+			password 'sa'
 			// Сравниваем с моделями, задавая пакет
 			referenceUrl 'hibernate:spring:hexlet.code.models.' +
 					// Указываем диалект

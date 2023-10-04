@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
@@ -20,6 +19,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,7 +41,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class WebSecurityConfig {
 
     public static final List<GrantedAuthority> DEFAULT_AUTHORITIES = List.of(new SimpleGrantedAuthority("USER"));
-    private static final String baseUrl = "/api";
+    private static final String BASE_URL = "/api";
 
     private final JwtAuthFilter jwtAuthFilter;
     private final CustomUserDetailsService userDetailsService;
@@ -53,14 +53,20 @@ public class WebSecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests ->
                                 requests
-                                        .requestMatchers(new AntPathRequestMatcher(baseUrl + NamePaths.getLoginPath(), POST.toString())).permitAll()
-                                        .requestMatchers(new AntPathRequestMatcher(baseUrl + NamePaths.getUsersPath(), POST.toString())).permitAll()
-                                        .requestMatchers(new AntPathRequestMatcher(baseUrl + NamePaths.getUsersPath(), GET.toString())).permitAll()
-                                        .requestMatchers(new AntPathRequestMatcher(baseUrl + NamePaths.getLabelsPath(), POST.toString())).permitAll()
-                                        .requestMatchers(new AntPathRequestMatcher(baseUrl + NamePaths.getLabelsPath(), GET.toString())).permitAll()
-                                        .requestMatchers(new AntPathRequestMatcher("/h2console/**", GET.toString())).permitAll()
-                                        .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher(baseUrl + "/**"))).permitAll()
+                                        .requestMatchers(new AntPathRequestMatcher(BASE_URL
+                                                + NamePaths.getLoginPath(), POST.toString())).permitAll()
+                                        .requestMatchers(new AntPathRequestMatcher(BASE_URL
+                                                + NamePaths.getUsersPath(), POST.toString())).permitAll()
+                                        .requestMatchers(new AntPathRequestMatcher(BASE_URL
+                                                + NamePaths.getUsersPath(), GET.toString())).permitAll()
+                                        .requestMatchers(new AntPathRequestMatcher(BASE_URL
+                                                + NamePaths.getLabelsPath(), POST.toString())).permitAll()
+                                        .requestMatchers(new AntPathRequestMatcher(BASE_URL
+                                                + NamePaths.getLabelsPath(), GET.toString())).permitAll()
+                                        .requestMatchers(new NegatedRequestMatcher(
+                                                new AntPathRequestMatcher(BASE_URL + "/**"))).permitAll()
                                         .anyRequest().authenticated())
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(AbstractHttpConfigurer::disable)

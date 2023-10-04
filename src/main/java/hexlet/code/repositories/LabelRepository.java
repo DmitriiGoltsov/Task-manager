@@ -8,7 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface LabelRepository extends JpaRepository<Label, Long> {
-    
     Optional<Label> findLabelByName(String name);
-    
 }

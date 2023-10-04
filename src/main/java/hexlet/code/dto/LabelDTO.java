@@ -9,8 +9,6 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LabelDTO {
-
     @NotBlank(message = "Label's name cannot be blank")
     private String name;
-    
 }

@@ -4,9 +4,9 @@ spring:
       on-profile: "dev"
 
   datasource:
-    url: jdbc:h2:file:./task_Manager
-    username: ""
-    password: ""
+    url: jdbc:h2:mem:taskmanager
+    username: "sa"
+    password: "sa"
     driver-class-name: org.h2.Driver
 
   jpa:

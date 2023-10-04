@@ -34,11 +34,11 @@ import static hexlet.code.controllers.TaskStatusController.TASK_STATUS_URL;
 @RequestMapping("${base-url}" + TASK_STATUS_URL)
 @AllArgsConstructor
 public class TaskStatusController {
-    
+
     public static final String TASK_STATUS_URL = "/statuses";
-    
+
     private TaskStatusServiceImpl taskStatusService;
-    
+
     @Operation(description = "Get all statuses of all tasks")
     @ApiResponse(responseCode = "200", description = "All task statuses are loaded",
             content = @Content(schema = @Schema(implementation = TaskStatus.class)))
@@ -46,7 +46,7 @@ public class TaskStatusController {
     public List<TaskStatus> getAllStatuses() {
         return taskStatusService.getAllTaskStatuses();
     }
-    
+
     @Operation(description = "Create new task status")
     @ApiResponse(responseCode = "201", description = "Task status was successfully created")
     @ResponseStatus(HttpStatus.CREATED)
@@ -54,36 +54,35 @@ public class TaskStatusController {
     public TaskStatus createTaskStatus(@RequestBody @Valid final TaskStatusDTO dto) {
         return taskStatusService.createTaskStatus(dto);
     }
-    
+
     @Operation(description = "Get task status by its id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Task status was successfully loaded"),
-            @ApiResponse(responseCode = "404", description = "Task status was not found")
+        @ApiResponse(responseCode = "200", description = "Task status was successfully loaded"),
+        @ApiResponse(responseCode = "404", description = "Task status was not found")
     })
     @GetMapping(path = "/{id}")
     public TaskStatus getStatusById(@PathVariable("id") final Long id) {
         return taskStatusService.getTaskStatusById(id);
     }
-    
+
     @Operation(description = "Update user by its id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Task status was successfully updated"),
-            @ApiResponse(responseCode = "404", description = "Task status was not found")
+        @ApiResponse(responseCode = "200", description = "Task status was successfully updated"),
+        @ApiResponse(responseCode = "404", description = "Task status was not found")
     })
     @PutMapping(path = "/{id}")
     public TaskStatus updateTaskStatus(@PathVariable("id") final Long id,
                                        @RequestBody @Valid final TaskStatusDTO dto) {
         return taskStatusService.updateTaskStatus(id, dto);
     }
-    
+
     @Operation(description = "Delete a task status by its id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Task status was deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Task status was not found")
+        @ApiResponse(responseCode = "200", description = "Task status was deleted successfully"),
+        @ApiResponse(responseCode = "404", description = "Task status was not found")
     })
     @DeleteMapping(path = "/{id}")
     public void deleteTaskStatus(@PathVariable("id") final Long id) {
         taskStatusService.deleteTaskStatus(id);
     }
-    
 }

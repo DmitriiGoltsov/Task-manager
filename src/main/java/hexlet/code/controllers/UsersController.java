@@ -38,7 +38,7 @@ public class UsersController {
 
     public static final String USER_CONTROLLER_PATH = "/users";
     public static final String ID = "/{id}";
-    
+
     public static final String ONLY_USER_BY_ID = """
             @userService.getUserById(#id).getEmail() == authentication.getName()
             """;
@@ -47,19 +47,15 @@ public class UsersController {
 
     @Operation(summary = "Operation to get all users stored in the DB")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200", description = "Users were successfully found and loaded",
-                    content = @Content(schema = @Schema(implementation = User.class))
+        @ApiResponse(
+            responseCode = "200", description = "Users were successfully found and loaded",
+            content = @Content(schema = @Schema(implementation = User.class))
             ),
-            @ApiResponse(responseCode = "404", description = "There are not stored users in the DB")
+        @ApiResponse(responseCode = "404", description = "There are not stored users in the DB")
     })
     @GetMapping
     public List<User> getAllUsers() {
-        List<User> result = userService.getAllUsers();
-        if (result.isEmpty()) {
-            throw new RuntimeException("There are not stored users in the DB");
-        }
-        return result;
+        return userService.getAllUsers();
     }
 
     @Operation(summary = "Operation adds a new user to the DB")
@@ -72,8 +68,8 @@ public class UsersController {
 
     @Operation(summary = "Get a user by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "User was found"),
-            @ApiResponse(responseCode = "404", description = "User with such id has not been found")
+        @ApiResponse(responseCode = "201", description = "User was found"),
+        @ApiResponse(responseCode = "404", description = "User with such id has not been found")
     })
     @GetMapping(ID)
     public User getUser(@PathVariable("id") final Long id) {
@@ -82,8 +78,8 @@ public class UsersController {
 
     @Operation(summary = "Operation changes characteristics of the particular user that is found by its id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "User was found and updated"),
-            @ApiResponse(responseCode = "404", description = "User with such id has not been found")
+        @ApiResponse(responseCode = "201", description = "User was found and updated"),
+        @ApiResponse(responseCode = "404", description = "User with such id has not been found")
     })
     @PreAuthorize(ONLY_USER_BY_ID)
     @PutMapping(ID)

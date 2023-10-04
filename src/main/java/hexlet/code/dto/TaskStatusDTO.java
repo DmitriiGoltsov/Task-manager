@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskStatusDTO {
-    
     @NotBlank(message = "Task status name cannot be blank")
     private String name;
-    
 }

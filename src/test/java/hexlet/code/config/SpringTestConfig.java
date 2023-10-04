@@ -15,12 +15,11 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan(basePackages = "hexlet.code")
 @PropertySource(value = "classpath:/testconfig/application.yml")
 public class SpringTestConfig {
-    
+
     public static final String TEST_PROFILE = "test";
-    
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplateBuilder().build();
     }
-
 }

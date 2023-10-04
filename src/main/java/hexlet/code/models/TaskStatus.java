@@ -30,22 +30,21 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class TaskStatus {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "task_status_id")
     @Setter(AccessLevel.NONE)
     private Long id;
-    
+
     @NotBlank(message = "Task status name cannot be blank")
     @Column(name = "name", unique = true)
     private String name;
-    
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt;
-    
+
     public TaskStatus(String name) {
         this.name = name;
     }
