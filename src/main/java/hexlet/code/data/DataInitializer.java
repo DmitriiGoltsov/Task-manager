@@ -1,9 +1,6 @@
 package hexlet.code.data;
 
-import hexlet.code.dto.TaskDTO;
-import hexlet.code.dto.TaskStatusDTO;
 import hexlet.code.dto.UserDTO;
-import hexlet.code.models.TaskStatus;
 import hexlet.code.models.User;
 import hexlet.code.services.CustomUserDetailsService;
 import hexlet.code.services.TaskServiceImplementation;
@@ -41,18 +38,5 @@ public class DataInitializer implements ApplicationRunner {
         userDTO.setLastName(DEFAULT_SURNAME);
 
         User user = userService.createUser(userDTO);
-
-        TaskStatusDTO taskStatusDTO = new TaskStatusDTO(DEFAULT_TASK_STATUS);
-        TaskStatus taskStatus = taskStatusService.createTaskStatus(taskStatusDTO);
-
-        TaskDTO taskDTO = new TaskDTO(
-                "First task",
-                "Check whether initial data was added to DB correctly",
-                taskStatus.getId(),
-                user.getId(),
-                user.getId()
-        );
-
-        taskService.createNewTask(taskDTO);
     }
 }

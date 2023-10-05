@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +31,7 @@ import java.util.List;
 import static hexlet.code.controllers.TaskStatusController.TASK_STATUS_URL;
 
 @RestController
+@Slf4j
 @Tag(name = "Task statuses controller")
 @RequestMapping("${base-url}" + TASK_STATUS_URL)
 @AllArgsConstructor
@@ -52,6 +54,7 @@ public class TaskStatusController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "")
     public TaskStatus createTaskStatus(@RequestBody @Valid final TaskStatusDTO dto) {
+        log.info("\n" + "Creating a new task status!" + "\n");
         return taskStatusService.createTaskStatus(dto);
     }
 

@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.AllArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +32,7 @@ import java.util.List;
 import static hexlet.code.controllers.UsersController.USER_CONTROLLER_PATH;
 
 @Tag(name = "User controller")
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "${base-url}" + USER_CONTROLLER_PATH)
@@ -63,6 +65,7 @@ public class UsersController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public User createUser(@RequestBody UserDTO userDTO) {
+        log.info("Creating a new user");
         return userService.createUser(userDTO);
     }
 
