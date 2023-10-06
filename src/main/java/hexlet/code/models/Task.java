@@ -57,7 +57,6 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
-    @NotBlank(message = "Author cannot be blank")
     private User author;
 
     @ManyToOne
@@ -76,12 +75,4 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "label_id")
     )
     private Set<Label> labels;
-
-    public Task(String name, String description, TaskStatus taskStatus, User author, User executor) {
-        this.name = name;
-        this.description = description;
-        this.taskStatus = taskStatus;
-        this.author = author;
-        this.executor = executor;
-    }
 }
