@@ -38,6 +38,7 @@ import static hexlet.code.controllers.LabelController.LABEL_CONTROLLER_URL;
 public class LabelController {
 
     public static final String LABEL_CONTROLLER_URL = "/labels";
+    public static final String ID = "/{id}";
 
     private final LabelServiceImplementation labelService;
 
@@ -65,7 +66,7 @@ public class LabelController {
         @ApiResponse(responseCode = "200", description = "Label updated successfully"),
         @ApiResponse(responseCode = "404", description = "Label with such id not found")
     })
-    @PutMapping("/{id}")
+    @PutMapping(ID)
     public Label updateLabel(@PathVariable("id") final Long id,
                              @RequestBody final LabelDTO labelDTO) {
 
@@ -77,7 +78,7 @@ public class LabelController {
         @ApiResponse(responseCode = "200", description = "Label was found"),
         @ApiResponse(responseCode = "404", description = "Label with such id does not exist")
     })
-    @GetMapping("/{id}")
+    @GetMapping(ID)
     public Label findLabelById(@PathVariable("id") final Long id) {
         return labelService.getLabelById(id);
     }
@@ -87,7 +88,7 @@ public class LabelController {
         @ApiResponse(responseCode = "200", description = "Label deleted"),
         @ApiResponse(responseCode = "404", description = "Label with such id is not found")
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ID)
     public void deleteLabel(@PathVariable("id") final Long id) {
         labelService.deleteLabelById(id);
     }
