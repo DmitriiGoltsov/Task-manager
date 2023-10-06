@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,4 +27,6 @@ public class TaskDTO {
 
     @NotNull(message = "Every task has to have an executor")
     private Long executorId;
+
+    private List<Long> labelsIds;
 }
