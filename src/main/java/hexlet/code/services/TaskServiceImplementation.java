@@ -59,7 +59,7 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     private void formTaskFromDto(TaskDTO taskDTO, Task task) {
-        final User author = userService.getUserById(taskDTO.getAuthorId());
+        final User author = userService.getCurrentUser();
         final User executor = userService.getUserById(taskDTO.getExecutorId());
         final TaskStatus taskStatus = taskStatusService.getTaskStatusById(taskDTO.getTaskStatusId());
 
