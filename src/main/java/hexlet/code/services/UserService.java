@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 
 import jakarta.validation.ValidationException;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -89,6 +90,19 @@ public class UserService {
 
     public void deleteAllUsers() {
         userRepository.deleteAll();
+    }
+
+    public String getEmailOfCurrentUser() {
+        return SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+    }
+
+    public User getCurrentUser() {
+        String userEmail = getEmailOfCurrentUser();
+        return userRepository.findUserByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User with username " + userEmail + " not found"));
     }
 
 
