@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
@@ -35,12 +36,12 @@ import static hexlet.code.controllers.TaskController.TASK_CONTROLLER_URL;
 @RequiredArgsConstructor
 public class TaskController {
 
-    protected static final String TASK_CONTROLLER_URL = "/tasks";
+    public static final String TASK_CONTROLLER_URL = "/tasks";
+    public static final String ID = "/{id}";
+    private static final String ONLY_OWNER_BY_ID =
+            "@taskRepository.findById(#id).get().getAuthor().getEmail() == authentication.getName()";
 
     private final TaskServiceImplementation taskService;
-
-    private static final String ONLY_OWNER_BY_ID =
-            "@taskService.getTaskById(#id).getAuthor().getEmail() == authentication.getName()";
 
     @Operation(description = "Get all tasks of all authors")
     @ApiResponse(responseCode = "200", description = "Every task is loaded")
@@ -54,7 +55,7 @@ public class TaskController {
         @ApiResponse(responseCode = "200", description = "The task was found and loaded"),
         @ApiResponse(responseCode = "404", description = "Task with such id does not exist")
     })
-    @GetMapping("/{id}")
+    @GetMapping(ID)
     public Task getTaskById(@PathVariable("id") @Valid final Long id) {
         return taskService.getTaskById(id);
     }
@@ -73,7 +74,7 @@ public class TaskController {
         @ApiResponse(responseCode = "404", description = "Task with this ID not found")
     })
     @PreAuthorize(ONLY_OWNER_BY_ID)
-    @PutMapping("/{id}")
+    @PutMapping(ID)
     public Task updateTask(@PathVariable("id") @Valid final Long id,
                            @RequestBody @Valid final TaskDTO taskDTO) {
 
@@ -86,7 +87,7 @@ public class TaskController {
         @ApiResponse(responseCode = "404", description = "Task with such id is not found")
     })
     @PreAuthorize(ONLY_OWNER_BY_ID)
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ID)
     public void deleteTask(@PathVariable("id") @Valid final Long id) {
         taskService.deleteTaskById(id);
     }
