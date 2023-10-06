@@ -1,6 +1,7 @@
 package hexlet.code.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,12 +13,12 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
+
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
@@ -32,8 +33,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    @Setter(AccessLevel.NONE)
     private Long id;
 
     @NotBlank(message = "First name cannot be empty")
