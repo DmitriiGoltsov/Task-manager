@@ -90,8 +90,9 @@ public class TaskStatusControllerTest {
         final MockHttpServletRequestBuilder request = post(BASE_URL + TASK_STATUS_URL)
                 .content(asJson(taskStatusDTO))
                 .contentType(MediaType.APPLICATION_JSON);
+
         final MockHttpServletResponse response = testUtils.perform(request, TEST_USERNAME)
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse();
         final TaskStatus savedTaskStatus = fromJson(response.getContentAsString(), new TypeReference<>() { });
