@@ -80,9 +80,16 @@ public class UserControllerTest {
 
     @Test
     public void registrationTest() throws Exception {
-        assertEquals(0, userService.getAllUsers().size());
-        testUtils.registerDefaultUser().andExpect(status().isCreated());
         assertEquals(1, userService.getAllUsers().size());
+        UserDTO userDTO = new UserDTO(
+                "Second firstName",
+                "Second surname",
+                NEW_USERNAME,
+                "qwerty"
+        );
+
+        testUtils.registerUser(userDTO).andExpect(status().isCreated());
+        assertEquals(2, userService.getAllUsers().size());
     }
 
     @Test
