@@ -161,12 +161,12 @@ public class UserControllerTest {
     }
 
     @Test
-    public void deleteUser() throws Exception {
+    public void deleteUserTest() throws Exception {
         final Long userId = userService.getUserByEmail(TEST_USERNAME).getId();
 
-        testUtils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TEST_USERNAME)
+        testUtils.perform(delete(BASE_URL + USER_CONTROLLER_PATH + "/" + userId, userId), TEST_USERNAME)
                 .andExpect(status().isOk());
 
-        assertEquals(1, userRepository.count());
+        assertEquals(0, userRepository.count());
     }
 }
