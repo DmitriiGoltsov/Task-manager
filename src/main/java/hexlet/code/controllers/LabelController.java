@@ -2,7 +2,7 @@ package hexlet.code.controllers;
 
 import hexlet.code.dto.LabelDTO;
 import hexlet.code.models.Label;
-import hexlet.code.services.LabelServiceImplementation;
+import hexlet.code.services.LabelService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,7 +40,7 @@ public class LabelController {
     public static final String LABEL_CONTROLLER_URL = "/labels";
     public static final String ID = "/{id}";
 
-    private final LabelServiceImplementation labelService;
+    private final LabelService labelService;
 
     @Operation(summary = "Get all labels")
     @ApiResponses(value = {
