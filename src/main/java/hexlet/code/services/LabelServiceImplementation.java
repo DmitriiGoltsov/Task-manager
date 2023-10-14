@@ -46,8 +46,7 @@ public class LabelServiceImplementation implements LabelService {
 
     @Override
     public Label updateLabel(Long id, LabelDTO labelDto) {
-        Label labelToBeUpdated = labelRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Label with id " + id + " not found"));
+        Label labelToBeUpdated = getLabelById(id);
 
         Optional<String> newName = Optional.ofNullable(labelDto.getName());
 
