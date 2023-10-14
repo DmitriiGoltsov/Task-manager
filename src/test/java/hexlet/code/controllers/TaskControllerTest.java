@@ -14,7 +14,7 @@ import hexlet.code.repositories.TaskRepository;
 import hexlet.code.repositories.TaskStatusRepository;
 import hexlet.code.services.LabelServiceImplementation;
 import hexlet.code.services.TaskServiceImplementation;
-import hexlet.code.services.TaskStatusServiceImpl;
+import hexlet.code.services.TaskStatusServiceImplementation;
 import hexlet.code.services.UserService;
 import hexlet.code.utils.TestUtils;
 
@@ -34,6 +34,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import static hexlet.code.config.SpringTestConfig.TEST_PROFILE;
@@ -86,7 +87,7 @@ public class TaskControllerTest {
     private LabelServiceImplementation labelService;
 
     @Autowired
-    private TaskStatusServiceImpl taskStatusService;
+    private TaskStatusServiceImplementation taskStatusService;
 
     @Autowired
     private TaskStatusRepository taskStatusRepository;
@@ -184,7 +185,7 @@ public class TaskControllerTest {
                 createdTask.getTaskStatus().getId(),
                 createdTask.getAuthor().getId(),
                 createdTask.getExecutor().getId(),
-                List.of()
+                Set.of()
         );
 
         final MockHttpServletRequestBuilder updatingRequest = put(
@@ -237,7 +238,7 @@ public class TaskControllerTest {
                 taskStatus.getId(),
                 user.getId(),
                 user.getId(),
-                List.of(label1.getId(), label2.getId())
+                Set.of(label1.getId(), label2.getId())
         );
     }
 }
