@@ -10,11 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 @Transactional
-public class TaskStatusServiceImpl implements TaskStatusService {
+public class TaskStatusServiceImplementation implements TaskStatusService {
 
     private final TaskStatusRepository repository;
 
@@ -34,13 +35,22 @@ public class TaskStatusServiceImpl implements TaskStatusService {
                 .orElseThrow(() -> new NoSuchElementException("Task status with id " + id + " not found"));
     }
 
+    @Override
+    public List<TaskStatus> getAllStatuses() {
+        return repository.findAll();
+    }
+
+    @Override
     public TaskStatus updateTaskStatus(final Long id, final TaskStatusDTO taskStatusDTO) {
         final TaskStatus taskStatusToUpdate = getTaskStatusById(id);
-        taskStatusToUpdate.setName(taskStatusDTO.getName());
+        Optional<String> newName = Optional.ofNullable(taskStatusDTO.getName());
+
+        newName.ifPresent(taskStatusToUpdate::setName);
 
         return repository.save(taskStatusToUpdate);
     }
 
+    @Override
     public void deleteTaskStatus(Long id) {
         repository.deleteById(id);
     }
