@@ -1,4 +1,4 @@
-base-url: /api
+base-url: ""
 
 spring:
   application:
@@ -12,16 +12,15 @@ spring:
 
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: update
 
-  h2:
-    console:
-      enabled: true
-      # Указываем путь, по которому будет открываться консоль
-      path: /h2console/
-      settings:
-        web-allow-others: true
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/changelog-master.xml
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
 logging:
   level:
