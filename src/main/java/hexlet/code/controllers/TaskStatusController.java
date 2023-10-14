@@ -2,7 +2,7 @@ package hexlet.code.controllers;
 
 import hexlet.code.dto.TaskStatusDTO;
 import hexlet.code.models.TaskStatus;
-import hexlet.code.services.TaskStatusServiceImpl;
+import hexlet.code.services.TaskStatusService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -41,14 +41,14 @@ public class TaskStatusController {
 
     public static final String ID = "/{id}";
 
-    private TaskStatusServiceImpl taskStatusService;
+    private final TaskStatusService taskStatusService;
 
     @Operation(description = "Get all statuses of all tasks")
     @ApiResponse(responseCode = "200", description = "All task statuses are loaded",
             content = @Content(schema = @Schema(implementation = TaskStatus.class)))
     @GetMapping
     public List<TaskStatus> getAllStatuses() {
-        return taskStatusService.getAllTaskStatuses();
+        return taskStatusService.getAllStatuses();
     }
 
     @Operation(description = "Create new task status")
@@ -56,7 +56,6 @@ public class TaskStatusController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "")
     public TaskStatus createTaskStatus(@RequestBody @Valid final TaskStatusDTO dto) {
-        log.info("\n" + "Creating a new task status!" + "\n");
         return taskStatusService.createTaskStatus(dto);
     }
 
