@@ -6,7 +6,7 @@ import hexlet.code.config.SpringTestConfig;
 import hexlet.code.dto.TaskStatusDTO;
 import hexlet.code.models.TaskStatus;
 import hexlet.code.repositories.TaskStatusRepository;
-import hexlet.code.services.TaskStatusServiceImpl;
+import hexlet.code.services.TaskStatusServiceImplementation;
 import hexlet.code.utils.TestUtils;
 
 import org.assertj.core.api.Assertions;
@@ -48,7 +48,7 @@ public class TaskStatusControllerTest {
     private static final String BASE_URL = "/api";
 
     @Autowired
-    private TaskStatusServiceImpl taskStatusService;
+    private TaskStatusServiceImplementation taskStatusService;
 
     @Autowired
     private TaskStatusRepository taskStatusRepository;
