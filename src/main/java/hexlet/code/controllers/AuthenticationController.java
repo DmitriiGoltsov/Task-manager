@@ -37,13 +37,14 @@ public class AuthenticationController {
         );
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-        if (userDetails != null) {
-            return ResponseEntity.ok(jwtUtils.generateToken(userDetails));
+
+        if (userDetails == null) {
+            return ResponseEntity
+                    .status(HttpServletResponse.SC_BAD_REQUEST)
+                    .body("User with username " + request.getEmail() + " not found");
         }
 
-        return ResponseEntity
-                .status(HttpServletResponse.SC_BAD_REQUEST)
-                .body("User with username " + request.getEmail() + " not found");
+        return ResponseEntity.ok(jwtUtils.generateToken(userDetails));
     }
 
 }
