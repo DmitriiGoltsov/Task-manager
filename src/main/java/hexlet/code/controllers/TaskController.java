@@ -6,6 +6,8 @@ import hexlet.code.models.Task;
 import hexlet.code.services.TaskServiceImplementation;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -64,7 +66,9 @@ public class TaskController {
     @ApiResponse(responseCode = "201", description = "Task was successfully created")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Task createTask(@RequestBody final TaskDTO taskDTO) {
+    public Task createTask(
+            @Parameter(schema = @Schema(implementation = TaskDTO.class))
+            @RequestBody final TaskDTO taskDTO) {
         return taskService.createNewTask(taskDTO);
     }
 
