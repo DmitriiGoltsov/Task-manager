@@ -2,9 +2,11 @@ package hexlet.code.services;
 
 import com.querydsl.core.types.Predicate;
 import hexlet.code.dto.TaskDTO;
+import hexlet.code.models.Label;
 import hexlet.code.models.Task;
 import hexlet.code.models.TaskStatus;
 import hexlet.code.models.User;
+import hexlet.code.repositories.LabelRepository;
 import hexlet.code.repositories.TaskRepository;
 
 import lombok.AllArgsConstructor;
@@ -12,8 +14,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -22,7 +26,8 @@ public class TaskServiceImplementation implements TaskService {
 
     private final TaskRepository taskRepository;
     private final UserService userService;
-    private final TaskStatusServiceImpl taskStatusService;
+    private final TaskStatusServiceImplementation taskStatusService;
+    private final LabelRepository labelRepository;
 
     @Override
     public Task createNewTask(TaskDTO taskDto) {
@@ -62,11 +67,15 @@ public class TaskServiceImplementation implements TaskService {
         final User author = userService.getCurrentUser();
         final User executor = userService.getUserById(taskDTO.getExecutorId());
         final TaskStatus taskStatus = taskStatusService.getTaskStatusById(taskDTO.getTaskStatusId());
+        final Set<Long> labelIds = taskDTO.getLabelIds();
+        final Set<Label> taskLabels = new HashSet<>(labelRepository.findAllById(labelIds));
 
         task.setName(taskDTO.getName());
         task.setDescription(taskDTO.getDescription());
         task.setAuthor(author);
         task.setExecutor(executor);
         task.setTaskStatus(taskStatus);
+        task.setLabels(taskLabels);
+        task.setLabels(taskLabels);
     }
 }
