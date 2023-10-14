@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -22,11 +22,9 @@ public class TaskDTO {
     @NotNull(message = "Task status cannot be blank or null")
     private Long taskStatusId;
 
-    @NotNull(message = "Every task has to have an author")
     private Long authorId;
 
-    @NotNull(message = "Every task has to have an executor")
     private Long executorId;
 
-    private List<Long> labelsIds;
+    private Set<Long> labelIds;
 }
