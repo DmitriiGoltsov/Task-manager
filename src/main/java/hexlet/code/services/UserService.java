@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -46,25 +47,19 @@ public class UserService {
     }
 
     public User updateUserById(Long id, UserDTO userDTO) {
-        User oldUser = userRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("User with id " + id + " was not found!"));
+        User userToBeUpdated = getUserById(id);
 
-        if (userDTO.getFirstName() != null) {
-            oldUser.setFirstName(userDTO.getFirstName());
-        }
+        Optional<String> newFirstName = Optional.ofNullable(userDTO.getFirstName());
+        Optional<String> newLastName = Optional.ofNullable(userDTO.getLastName());
+        Optional<String> newEmail = Optional.ofNullable(userDTO.getEmail());
+        Optional<String> newPassword = Optional.ofNullable(passwordEncoder.encode(userDTO.getPassword()));
 
-        if (userDTO.getLastName() != null) {
-            oldUser.setLastName(userDTO.getLastName());
-        }
+        newFirstName.ifPresent(userToBeUpdated::setFirstName);
+        newLastName.ifPresent(userToBeUpdated::setLastName);
+        newEmail.ifPresent(userToBeUpdated::setEmail);
+        newPassword.ifPresent(userToBeUpdated::setPassword);
 
-        if (userDTO.getEmail() != null) {
-            oldUser.setEmail(userDTO.getEmail());
-        }
-        if (userDTO.getPassword() != null) {
-            oldUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        }
-
-        return userRepository.save(oldUser);
+        return userRepository.save(userToBeUpdated);
     }
 
     public void deleteUserById(Long id) {
@@ -104,6 +99,5 @@ public class UserService {
         return userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User with username " + userEmail + " not found"));
     }
-
 
 }
