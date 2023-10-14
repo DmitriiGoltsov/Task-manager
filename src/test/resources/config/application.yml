@@ -1,4 +1,4 @@
-base-url: ""
+base-url: "/api"
 
 spring:
   application:
@@ -15,7 +15,7 @@ spring:
 
   liquibase:
     enabled: true
-    change-log: classpath:db/changelog/changelog-master.xml
+    change-log: classpath:db/changelog/db.changelog-master.yml
 
   mvc:
     hiddenmethod:
