@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;
 
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -26,8 +27,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 import java.util.Set;
-
-import static jakarta.persistence.TemporalType.TIMESTAMP;
 
 @Entity
 @Setter
@@ -64,9 +63,9 @@ public class Task {
     private User executor;
 
     @CreationTimestamp
-    @Temporal(TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
-    private Date createdAT;
+    private Date createdAt;
 
     @ManyToMany
     @JoinTable(
