@@ -1,8 +1,5 @@
 package hexlet.code.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.Entity;
@@ -11,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.TemporalType;
-import jakarta.persistence.ManyToMany;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -24,7 +20,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Table(name = "labels")
@@ -48,7 +43,4 @@ public class Label {
     @CreationTimestamp
     private Date createdAt;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "labels")
-    private Set<Task> tasks;
 }
