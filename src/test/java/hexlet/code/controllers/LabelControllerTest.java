@@ -6,10 +6,11 @@ import hexlet.code.config.SpringTestConfig;
 import hexlet.code.dto.LabelDTO;
 import hexlet.code.models.Label;
 import hexlet.code.repositories.LabelRepository;
-import hexlet.code.services.LabelServiceImplementation;
+import hexlet.code.services.LabelService;
 import hexlet.code.utils.TestUtils;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,22 +51,26 @@ public class LabelControllerTest {
 
     private static final String BASE_URL = "/api";
 
-    private LabelDTO labelDTO;
+    private static LabelDTO labelDTO;
 
     @Autowired
     private LabelRepository labelRepository;
 
     @Autowired
-    private LabelServiceImplementation labelService;
+    private LabelService labelService;
 
     @Autowired
     private TestUtils testUtils;
+
+    @BeforeAll
+    public static void beforeAll() {
+        labelDTO = new LabelDTO("Test label");
+    }
 
     @BeforeEach
     public void beforeEach() throws Exception {
         testUtils.tearDown();
         testUtils.registerDefaultUser();
-        labelDTO = new LabelDTO("Test label");
     }
 
     @AfterEach
