@@ -32,11 +32,7 @@ public class UserService {
             throw new ValidationException("User with username " + userDTO.getEmail() + " already exists");
         }
 
-        User user = new User();
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        User user = formUserFromUserDTO(userDTO, new User());
 
         return userRepository.save(user);
     }
@@ -47,19 +43,9 @@ public class UserService {
     }
 
     public User updateUserById(Long id, UserDTO userDTO) {
-        User userToBeUpdated = getUserById(id);
+        User updatedUser = formUserFromUserDTO(userDTO, getUserById(id));
 
-        Optional<String> newFirstName = Optional.ofNullable(userDTO.getFirstName());
-        Optional<String> newLastName = Optional.ofNullable(userDTO.getLastName());
-        Optional<String> newEmail = Optional.ofNullable(userDTO.getEmail());
-        Optional<String> newPassword = Optional.ofNullable(passwordEncoder.encode(userDTO.getPassword()));
-
-        newFirstName.ifPresent(userToBeUpdated::setFirstName);
-        newLastName.ifPresent(userToBeUpdated::setLastName);
-        newEmail.ifPresent(userToBeUpdated::setEmail);
-        newPassword.ifPresent(userToBeUpdated::setPassword);
-
-        return userRepository.save(userToBeUpdated);
+        return userRepository.save(updatedUser);
     }
 
     public void deleteUserById(Long id) {
@@ -98,6 +84,19 @@ public class UserService {
         String userEmail = getEmailOfCurrentUser();
         return userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User with username " + userEmail + " not found"));
+    }
+
+    private User formUserFromUserDTO(UserDTO userDTO, User user) {
+
+        Optional.ofNullable(userDTO.getFirstName()).ifPresent(user::setFirstName);
+        Optional.ofNullable(userDTO.getLastName()).ifPresent(user::setLastName);
+        Optional.ofNullable(userDTO.getEmail()).ifPresent(user::setEmail);
+
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
+
+        return user;
     }
 
 }
