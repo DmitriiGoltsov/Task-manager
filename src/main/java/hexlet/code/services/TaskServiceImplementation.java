@@ -1,6 +1,7 @@
 package hexlet.code.services;
 
 import com.querydsl.core.types.Predicate;
+
 import hexlet.code.dto.TaskDTO;
 import hexlet.code.models.Label;
 import hexlet.code.models.Task;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -26,7 +28,7 @@ public class TaskServiceImplementation implements TaskService {
 
     private final TaskRepository taskRepository;
     private final UserService userService;
-    private final TaskStatusServiceImplementation taskStatusService;
+    private final TaskStatusService taskStatusService;
     private final LabelRepository labelRepository;
 
     @Override
@@ -64,18 +66,26 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     private void formTaskFromDto(TaskDTO taskDTO, Task task) {
-        final User author = userService.getCurrentUser();
-        final User executor = userService.getUserById(taskDTO.getExecutorId());
-        final TaskStatus taskStatus = taskStatusService.getTaskStatusById(taskDTO.getTaskStatusId());
-        final Set<Long> labelIds = taskDTO.getLabelIds();
-        final Set<Label> taskLabels = new HashSet<>(labelRepository.findAllById(labelIds));
 
-        task.setName(taskDTO.getName());
-        task.setDescription(taskDTO.getDescription());
+        final User author = userService.getCurrentUser();
+        final TaskStatus taskStatus = taskStatusService.getTaskStatusById(taskDTO.getTaskStatusId());
+        final String taskName = taskDTO.getName();
+        final Set<Label> labels = Optional.ofNullable(taskDTO.getLabelIds())
+                .map(labelIds -> new HashSet<>(labelRepository.findAllById(labelIds)))
+                .orElseGet(HashSet::new);
+
         task.setAuthor(author);
-        task.setExecutor(executor);
+        task.setName(taskName);
         task.setTaskStatus(taskStatus);
-        task.setLabels(taskLabels);
-        task.setLabels(taskLabels);
+        task.setLabels(labels);
+
+        Optional.ofNullable(taskDTO.getDescription())
+                .ifPresentOrElse(task::setDescription, () -> task.setDescription(""));
+
+        if (Optional.ofNullable(taskDTO.getExecutorId()).isPresent()) {
+            task.setExecutor(userService.getUserById(taskDTO.getExecutorId()));
+        } else {
+            task.setExecutor(author);
+        }
     }
 }
