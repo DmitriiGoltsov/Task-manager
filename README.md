@@ -1,7 +1,7 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/DmitriiGoltsov/java-project-73/workflows/hexlet-check/badge.svg)](https://github.com/DmitriiGoltsov/java-project-73/actions)
 
-### CodeClimate maintainability and Code coverage badges:
+### CodeClimate maintainability and code coverage badges:
 [![Maintainability](https://api.codeclimate.com/v1/badges/995ece44c4d04e10c42d/maintainability)](https://codeclimate.com/github/DmitriiGoltsov/java-project-73/maintainability)
 
 <a href="https://codeclimate.com/github/DmitriiGoltsov/java-project-73/test_coverage"><img src="https://api.codeclimate.com/v1/badges/995ece44c4d04e10c42d/test_coverage" /></a>
