@@ -13,7 +13,7 @@
 
 Task manager application written with Spring Boot, Spring Security and some other technologies (see a list of used technologies below).
 
-The application provides to register new users and, for authenticated users only, to create new:
+The application provides functionality to register new users and, for authenticated users only, to create new:
 
 1) Tasks: main entities of the app. They contain name, description, different unique labels and statuses. Task always shows who its creator is and can also show its appointed executor;
 2) Labels: unique entities that can be added to any tasks to help picking them out. For example, a user can create such labels as "bag", "urgent", "design" etc. Those labels help an executor to better organise his/her work;
