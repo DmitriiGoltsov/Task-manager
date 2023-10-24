@@ -17,7 +17,7 @@ public class LoginDTO {
     private String email;
 
     @NotBlank(message = "Password cannot be blank")
-    @Size(min = 5, max = 35, message = "Password has to contain from 5 to 35 characters!")
+    @Size(min = 3, max = 255, message = "Password has to contain from 3 to 255 characters!")
     private String password;
 
 }
