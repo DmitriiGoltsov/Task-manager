@@ -84,8 +84,6 @@ public class TaskServiceImplementation implements TaskService {
 
         if (Optional.ofNullable(taskDTO.getExecutorId()).isPresent()) {
             task.setExecutor(userService.getUserById(taskDTO.getExecutorId()));
-        } else {
-            task.setExecutor(author);
         }
     }
 }
