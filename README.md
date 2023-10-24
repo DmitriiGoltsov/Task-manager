@@ -58,7 +58,7 @@ Run production version
 ```zsh
 make start-prod
 ```
-Default url: http://localhost:7070/login
+Default url: http://localhost:7070
 
 ## APIs:
 
