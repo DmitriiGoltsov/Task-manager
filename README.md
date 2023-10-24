@@ -30,14 +30,14 @@ The app also supports task filtration.
 ## The main technologies used in the app:
 
 * Spring Boot, Spring Data JPA and Spring Security;
-* JSON Web Tokens (JJWT);
+* JSON Web Tokens (JWT);
 * PostgreSQL and H2 Database;
 * Liquibase (for database migrations);
 * SpringDoc OpenAPI;
 * Hibernate (primarily for validation and as a part of Spring Data JPA);
 * Lombok for removing some parts of boilerplate code;
 * Rollbar error tracking service;
-* MockWebServer
+* MockWebServer (for tests);
 * Dependencies are managed by Gradle (Groovy);
 * Others
 
