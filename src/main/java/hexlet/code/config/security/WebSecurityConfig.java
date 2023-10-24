@@ -59,10 +59,6 @@ public class WebSecurityConfig {
                                                 + NamePaths.getUsersPath(), POST.toString())).permitAll()
                                         .requestMatchers(new AntPathRequestMatcher(BASE_URL
                                                 + NamePaths.getUsersPath(), GET.toString())).permitAll()
-                                        .requestMatchers(new AntPathRequestMatcher(BASE_URL
-                                                + NamePaths.getLabelsPath(), POST.toString())).permitAll()
-                                        .requestMatchers(new AntPathRequestMatcher(BASE_URL
-                                                + NamePaths.getLabelsPath(), GET.toString())).permitAll()
                                         .requestMatchers(new NegatedRequestMatcher(
                                                 new AntPathRequestMatcher(BASE_URL + "/**"))).permitAll()
                                         .anyRequest().authenticated())
